@@ -23,3 +23,6 @@ services:
       - "443:443"  # HTTPS
     depends_on:
       - app  # Убедимся, что React-приложение запущено перед Nginx
+
+
+
