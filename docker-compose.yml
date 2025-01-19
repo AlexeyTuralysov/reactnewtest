@@ -26,4 +26,3 @@ services:
 
 
 
-docker-compose exec certbot certonly --webroot --webroot-path=/var/www/certbot --email alexeyturalysov@gmail.com --agree-tos --no-eff-email -d ugosty.ru
