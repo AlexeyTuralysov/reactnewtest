@@ -3,35 +3,24 @@ version: '3'
 services:
   app:
     build: ./react
-    ports:
-      - "3000:80"
-    volumes:
-      - ./react/dist:/app/dist
     container_name: reactapp
-    
+    ports:
+      - "3000:80"  # Мы будем проксировать 80 порт из контейнера в 3000 порт на хосте
+    volumes:
+      - ./react/dist:/app/dist  # Монтируем директорию dist для тестирования
+    depends_on:
+      - nginx
 
   nginx:
-   
-
     image: nginx:latest
+    container_name: nginx
     volumes:
-    
-    - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    - ./react/dist:/usr/share/nginx/html
-
-    - ./nginx/certbot/conf:/etc/letsencrypt
-    - ./nginx/certbot/www:/var/www/certbot
-
-    
-
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./react/dist:/usr/share/nginx/html  # Монтируем скомпилированные файлы React-приложения
+      - ./nginx/certbot/conf:/etc/letsencrypt  # Для сертификатов
+      - ./nginx/certbot/www:/var/www/certbot  # Для вызова Certbot
     ports:
-     - "80:80"
-     - "443:443"
-
+      - "80:80"  # HTTP
+      - "443:443"  # HTTPS
     depends_on:
-        - app
-
-
-
-
-  
+      - app  # Убедимся, что React-приложение запущено перед Nginx
