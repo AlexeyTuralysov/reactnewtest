@@ -8,8 +8,7 @@ services:
       - "3000:80"  # Мы будем проксировать 80 порт из контейнера в 3000 порт на хосте
     volumes:
       - ./react/dist:/app/dist  # Монтируем директорию dist для тестирования
-    depends_on:
-      - nginx
+    
 
   nginx:
     image: nginx:latest
